@@ -4,7 +4,10 @@ class Music:
         self.song_title = song_title
         self.length = length
         self.genre = genre
-        self.average_rating = float(average_rating)
+        try: 
+            self.average_rating = int(average_rating)
+        except ValueError:
+            self.average_rating = "N/A"
 
     def display_song(self):
         return (f"The song, '{self.song_title}' is streamable.\n" 
@@ -18,23 +21,26 @@ def file_songs(filename):
     with open(filename, 'r') as file: 
         for line in file: 
             parts = line.strip().split(',')
-            if len(parts) == 5:
+            if len(parts) == 5: 
                 artist, song_title, length, genre, average_rating = parts
-                song = Music(artist, song_title, length, genre, average_rating)
-                song_list.append(song)
+            elif len(parts) == 4:
+                artist, song_title, length, genre = parts
+                average_rating = "N/A"
+            else: 
+                continue
+            song = Music(artist, song_title, length, genre, average_rating)
+            song_list.append(song)
     return song_list
     
 def search_songs(song_list):
-    try: 
-        while True:
-            user_song = input("Please enter a song title: ")
-            for song in song_list:
-                if song.song_title.strip() == user_song:
-                    return song.display_song()
+    while True:
+        user_song = input("Please enter a song title: ")
+        if not user_song:
+            return "No song title entered."
+        for song in song_list:
+            if song.song_title.strip().lower() == user_song.lower():
+                return song.display_song()
         print("Unfortunately, that song is not streamable.")
-    finally: 
-        print("Something went wrong.")
-
 
 songs = file_songs("music_data.txt")
 print(search_songs(songs))
