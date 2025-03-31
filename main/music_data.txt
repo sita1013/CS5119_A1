@@ -3,4 +3,9 @@ Beyoncé,Halo,261 seconds,Pop,5
 Nirvana,Smells Like Teen Spirit,301 seconds,Grunge,5
 Adele,Hello,295 seconds,Soul, 4
 Colter Wall,Sleeping On the Blacktop,192 seconds,Country
-Colter Wall,The Devil Weawrs a Suit and Tie,236 seconds,Country
+Colter Wall,The Devil Wears a Suit and Tie,236 seconds,Country
+Queen,Bohemian Rhapsody,355 seconds,Progressive Rock,4
+Taylor Swift,Tolerate It,245 seconds,Indie Folk,5
+Twenty One Pilots,Jumpsuit,238 seconds,Alternative Rock,4
+Chappell Roan,Good Luck, Babe!,218 seconds,Synth-pop,4
+Queen,I Want to Break Free,259 seconds,Rock,5
