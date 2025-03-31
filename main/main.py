@@ -43,11 +43,20 @@ def search_songs(song_list):
                 return song.display_song()
         print("Unfortunately, that song is not streamable.")
 
-def artist_songs(NA):
+def artist_songs(song_list):
     while True: 
         artist_name = input("Please enter an artist's name: ")
-        
+        if not artist_name: 
+            return "No artist name entered."
+        matches = [song.song_title for song in song_list if song.artist.strip().lower() == artist_name.lower()]
+        if matches: 
+            return f"Songs by {artist_name}:\n" + "\n".join(matches)
+
+        else:
+            print("Unfortuantely, that artist is not streamable.")
 
 songs = file_songs("music_data.txt")
 print(search_songs(songs))
+print(artist_songs(songs))
+
 
