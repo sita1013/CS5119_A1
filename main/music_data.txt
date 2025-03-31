@@ -3,3 +3,4 @@ Beyoncé,Halo,261 seconds,Pop,5
 Nirvana,Smells Like Teen Spirit,301 seconds,Grunge,5
 Adele,Hello,295 seconds,Soul, 4
 Colter Wall,Sleeping On the Blacktop,192 seconds,Country
+Colter Wall,The Devil Weawrs a Suit and Tie,236 seconds,Country

@@ -15,6 +15,7 @@ class Music:
         f"This song is considered {self.genre},\n" 
         f"rated at a {self.average_rating} out of 5,\n" 
         f"and is {self.length} long.")
+    
 
 def file_songs(filename):
     song_list = []
@@ -41,6 +42,11 @@ def search_songs(song_list):
             if song.song_title.strip().lower() == user_song.lower():
                 return song.display_song()
         print("Unfortunately, that song is not streamable.")
+
+def artist_songs(NA):
+    while True: 
+        artist_name = input("Please enter an artist's name: ")
+        
 
 songs = file_songs("music_data.txt")
 print(search_songs(songs))
