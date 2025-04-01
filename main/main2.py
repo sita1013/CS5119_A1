@@ -27,7 +27,7 @@ def file_songs(filename):
         music_file = csv.reader(file, quotechar="'", skipinitialspace = True)
         for row in music_file:
             if len(row) < 4:
-                print(f"Skipping incomplete row: {row}")
+                print(f"Issues with this information and skipping row: {row}")
                 continue
             elif len(row) == 4:
                 artist, song_title, length, genre = row
@@ -35,7 +35,7 @@ def file_songs(filename):
             elif len(row) == 5:
                 artist, song_title, length, genre, average_rating = row
             else:
-                print(f"Skipping malformed row: {row}")
+                print(f"Skipping row due to problems with the information: {row}")
                 continue
             song = Music(artist, song_title, length, genre, average_rating)
             song_list.append(song)
@@ -45,7 +45,7 @@ def search_songs(song_list):
     while True:
         user_song = input("Please enter a song title: ")
         if not user_song:
-            return "No song title entered."
+            print("No song title entered.")
         for song in song_list:
             if song.song_title.strip().lower() == user_song.lower():
                 return song.display_song()
@@ -55,10 +55,10 @@ def artist_songs(song_list):
     while True: 
         artist_name = input("Please enter an artist's name: ")
         if not artist_name: 
-            return "No artist name entered."
+            print("No artist name entered.")
         matches = [song.song_title for song in song_list if song.artist.strip().lower() == artist_name.lower()]
         if matches: 
-            return f"Songs by {artist_name}:\n" + "\n".join(matches)
+            print(f"Songs by {artist_name}:\n" + "\n".join(matches))
         else:
             print("Unfortunately, that artist is not streamable.")
 
