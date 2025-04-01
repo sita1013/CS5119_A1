@@ -38,9 +38,10 @@ def file_songs(filename):
             song_list.append(song)
     return song_list
 
+import time
 def search_songs(song_list):
     while True:
-        user_song = input("Please enter a song title: ")
+        user_song = input("Please enter a song title: ").lower()
         if not user_song:
             print("No song title entered. Please try again: ")
             continue
@@ -49,7 +50,11 @@ def search_songs(song_list):
                 return song.display_song()
             follow_up = input("Would you like to play the song? (y/n): ").lower()
             if follow_up == "y":
-                print(f"{song.song_title} by {song.artist} is now playing...")
+                print(f"{song.song_title} by {song.artist} is now playing...", end = '', flush = True)
+                for _ in range(5): 
+                    time.sleep(1)
+                    print(".", end = '', flush = True)
+                print(f)
             elif follow_up == "n": 
                 print("Thank you for using this programme and hope to see you again soon.")
             return
