@@ -1,0 +1,39 @@
+class defined for music with arguments:
+    name
+    title
+    length
+    genre
+    rating(if false then return "N/A")
+
+function search for an artist or search for a song:
+    if input = search artist
+        call function search_artist
+    if input = search song
+        call function search_song
+    user can input exit to exit
+    
+function search_artist: 
+    list songs by artist
+    input asking if user would like to exit or search specific song
+    if input = search song
+        call function search_song
+    
+function search_song: 
+    list details of song (title, artist, length, genre, rating)
+    input asking if user would like to exit or play specific song
+    if input = play song
+        call function play_song
+
+function play_song:
+    print(f"<<{song title}>> by <<{artist's name}>>")
+    input asking user to press enter to play song
+    if input = play song
+        print(f"{'song title'} by {artist's name'} is currently playing") * every 10 seconds of song
+        user can type "exit" at any time to end the song
+    after song or "exit" call function rate_song
+
+function rate_song:
+    asks user to rate song with a whole number from 1 to 5 with 1 being horrible and 5 being spectacular
+    if user inputs whole number
+        adjust current rating to intake this rating
+        ask user to type exit or call function to search for artist or search for song

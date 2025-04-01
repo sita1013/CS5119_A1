@@ -24,8 +24,8 @@ class Music:
 def file_songs(filename):
     song_list = []
     with open(filename, 'r', encoding='utf-8') as file: 
-        reader = csv.reader(file, quotechar="'", skipinitialspace = True)
-        for row in reader:
+        music_file = csv.reader(file, quotechar="'", skipinitialspace = True)
+        for row in music_file:
             if len(row) < 4:
                 print(f"Skipping incomplete row: {row}")
                 continue
