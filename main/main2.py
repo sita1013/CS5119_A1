@@ -4,15 +4,16 @@ class Music:
     def __init__(self, artist, song_title, length, genre, average_rating):
         self.artist = artist
         self.song_title = song_title
-        self.length = self.clean_length(length)
+        self.length = length
         self.genre = genre
         try: 
             self.average_rating = int(average_rating)
         except ValueError:
             self.average_rating = "N/A"
 
-    def clean_length(self, length):
-        return length.replace("seconds", "").strip() + " seconds"
+#not needed?
+   #def clean_length(self, length):
+        #return length.replace("seconds", "").strip() + " seconds" 
 
     def display_song(self):
         return (f"The song, '{self.song_title}' is streamable.\n" 
@@ -50,6 +51,12 @@ def search_songs(song_list):
             if song.song_title.strip().lower() == user_song.lower():
                 return song.display_song()
         print("Unfortunately, that song is not streamable.")
+        follow_up = input("Would you like to play the song? (y/n): ").lower()
+        if follow_up == "y":
+            return(play_song(song_list))
+        if follow_up == "n": 
+            print("Thank you for using this programme and hope to see you again soon.")
+            return start_searching(songs)
 
 def artist_songs(song_list):
     while True: 
@@ -59,9 +66,26 @@ def artist_songs(song_list):
         matches = [song.song_title for song in song_list if song.artist.strip().lower() == artist_name.lower()]
         if matches: 
             print(f"Songs by {artist_name}:\n" + "\n".join(matches))
+            follow_up = input("Would you like to search a specific song? (y/n):").lower()
+            if follow_up == "y":
+                return search_songs(song_list)
+                break
+            elif follow_up == "n": 
+                print("Thank you for using this programme and hope to see you again soon.")
+                return start_searching(songs)
         else:
             print("Unfortunately, that artist is not streamable.")
 
+def start_searching(song_list):
+    while True: 
+        user_decision = input("Which would you like to search for? (artists/songs): ").lower()
+        if user_decision == "artists":
+            return artist_songs(song_list)
+        if user_decision == "songs": 
+            return search_songs(song_list)
+        else: 
+            print("Unfortunately I didn't quite catch that. Please try again.")
+
 songs = file_songs("music_data.txt")
-print(search_songs(songs))
-print(artist_songs(songs))
+print(start_searching(songs))
+

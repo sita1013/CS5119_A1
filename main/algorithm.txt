@@ -19,6 +19,7 @@ function rate_song:
         adjust current rating to intake this rating
         ask user to type exit or call function search_artist_OR_search_song
 
+#should put this inside the search_song function instead
 function play_song:
     print(f"<<{song title}>> by <<{artist's name}>>")
     input asking user to press enter to play song
