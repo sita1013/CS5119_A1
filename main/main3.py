@@ -38,6 +38,68 @@ def file_songs(filename):
             song_list.append(song)
     return song_list
 
+def exit_programme(song_list, matched_song):
+    print("Okay, thank you! Hope to see you again.\n")
+
+def user_rating(song_list, matched_song):
+    while True: 
+        ask_rating = input("Would you like to rate this songartist? (y/n): ")
+        if ask_rating == "y":
+            while True:
+                user_rating = input("Please enter a rating between 1 and 5, with 5 being amazing: ").strip().casefold()
+                if user_rating in {"1", "2", "3", "4", "5"}:
+                    print("Thank you for your rating.\n")
+                    while True:
+                        from_beginning = input("Would you like to start from the beginning? (y/n): ").strip().casefold()
+                        if from_beginning == "y":
+                            return start_searching(song_list)
+                        elif from_beginning == "n":
+                            return exit_programme(song_list, matched_song)
+                        else:
+                            print("Sorry, please type either 'y' or 'n'.\n")
+                else: 
+                    print("\nSorry, I didn't catch that; can you try again?")
+                    continue
+        elif ask_rating == "n":
+            while True:
+                start_again = input("Okay, thank you. Please let me know what you'd like to do next (restart/end): ").strip().casefold()
+                if start_again == "restart":
+                    return start_searching(song_list)
+                elif start_again == "end":
+                    return exit_programme(song_list, matched_song)
+                else: 
+                    print("Sorry, I didn't catch that. Please try again and type either 'restart' or 'end'.\n")
+                    continue
+        else:
+            print("\nSorry I didn't catch that. Please type a whole number between 1 and 5.")
+            continue
+
+def play_song(song_list, matched_song):
+    while True: 
+        follow_up = input(f"Would you like to play <<{matched_song.song_title}>> by <<{matched_song.artist}>>? (y/n): ").strip().casefold()
+        if follow_up == "y":
+            print(f"{matched_song.song_title} by {matched_song.artist} is now playing...", end = '', flush = True)
+            for _ in range(5):
+                time.sleep(1)
+                print(".", end = '', flush = True)
+            print(f"\n{matched_song.song_title} has now finished playing.")
+            return user_rating(song_list, matched_song)
+        elif follow_up == "n":
+            while True:
+                start_over = input("Okay, I understand you don't want to play the song. Feel free to let me know what you'd like to do next (artists/songs/end): ")
+                if start_over == "artist":
+                    return artist_songs(song_list)
+                elif start_over == "song":
+                    return search_songs(song_list)
+                elif start_over == "end":
+                    return exit_programme(song_list, matched_song)
+                else:
+                    print("Sorry, I didn't catch that. Please type 'artist', 'song', or 'end'.\n")
+                    continue
+        else:         
+            print("Unfortunately that is not playable. Please check your spelling as well and try again.\n")
+            continue
+
 import time
 def search_songs(song_list):
     while True:
@@ -51,69 +113,45 @@ def search_songs(song_list):
         )
         if matched_song:
             print(matched_song.display_song())
-            while True: 
-                follow_up = input(f"Would you like to play <<{matched_song.song_title}>> by <<{matched_song.artist}>>? (y/n): ").strip().casefold()
-                if follow_up == "y":
-                    print(f"{matched_song.song_title} by {matched_song.artist} is now playing...", end = '', flush = True)
-                    for _ in range(5): 
-                        time.sleep(1)
-                        print(".", end = '', flush = True)
-                    print(f"\n{matched_song.song_title} has now finished playing.")
-                    break
-                elif follow_up == "n":
-                    break
-                else: 
-                    print("Invalid input. Please try again.")
-        else:         
-            print("Unfortunately that is not playable.")            
-            while True:
-                start_again = input("Okay thank you. Please type next command (start/end): ").strip().casefold()
-                if start_again == "start":
-                    return start_searching(song_list)
-                elif start_again == "end":
-                    print("Okay thank you and hope to see you again soon.")
-                else:
-                    print("Invalid input. Please try again.")
-            while True:
-                start_over = input("Would you like to search for anything else? (y/n): ").strip().casefold()
-                if start_over == "y": 
-                    break
-                elif start_over == "n": 
-                    print("Thank you for using this programme and hope to see you again soon.")
-                    return
-                else: 
-                    print("Sorry that's not a correct input.")
+            return play_song(song_list, matched_song)     
+        else:
+            print("Sorry that isn't a streamable song. Please check your spelling and try again.\n")
+            continue
 
 def artist_songs(song_list):    
     while True: 
         artist_name = input("Please enter an artist's name: ")
         if not artist_name: 
-            print("No artist name entered.")
-        matches = [song.song_title for song in song_list if song.artist.strip().casefold() == artist_name.casefold()]
+            print("No artist name entered.\n")
+            continue
+        matches = [song.song_title for song in song_list if song.artist.strip().casefold() == artist_name.strip().casefold()]
         if matches: 
             print(f"Songs by {artist_name}:\n" + "\n".join(matches))
+        else:
+            print("Unfortunately, that artist is not streamable. Please check your spelling and try again.\n")
+            continue
         while True:    
-            follow_up = input("Would you like to search a specific song? (y/n):").casefold()
+            follow_up = input("Would you like to search a specific song? (y/n):").strip().casefold()
             if follow_up == "y":
                 return search_songs(song_list)
             elif follow_up == "n": 
-                print("Thank you for using this programme and hope to see you again soon.")
+                print("Thank you for using this programme and hope to see you again soon.\n")
                 return start_searching(song_list)
             else:
-                print("Sorry that's not a correct input.")
-        else:
-            print("Unfortunately, that artist is not streamable.")
+                print("Sorry, I didn't catch that. Please type 'y' or 'n'.\n")
+                continue
 
 def start_searching(song_list):
     while True: 
-        user_decision = input("Which would you like to search for? (artists/songs): ").lower()
+        user_decision = input("Which would you like to search for? (artists/songs): ").strip().casefold()
         if user_decision == "artists":
             return artist_songs(song_list)
-        if user_decision == "songs": 
+        if user_decision == "songs":
             return search_songs(song_list)
         else: 
-            print("Unfortunately I didn't quite catch that. Please try again.")
+            print("Unfortunately I didn't quite catch that. Please type either 'artists' or 'songs' and don't forget the 's' at the end of each word.\n")
+            continue
 
 songs = file_songs("music_data.txt")
-print(start_searching(songs))
+start_searching(songs)
 
