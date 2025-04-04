@@ -16,7 +16,7 @@ class Music:
                 f"The artist is {self.artist}.\n" 
                 f"This song is considered {self.genre},\n" 
                 f"rated at a {self.average_rating} out of 5,\n" 
-                f"and is {self.length} long.")
+                f"and is {self.length} long.\n")
 
 def file_songs(filename):
     song_list = []
@@ -43,7 +43,7 @@ def exit_programme(song_list, matched_song):
 
 def user_rating(song_list, matched_song):
     while True: 
-        ask_rating = input("Would you like to rate this songartist? (y/n): ")
+        ask_rating = input("Would you like to rate this song? (y/n): ")
         if ask_rating == "y":
             while True:
                 user_rating = input("Please enter a rating between 1 and 5, with 5 being amazing: ").strip().casefold()
@@ -82,14 +82,14 @@ def play_song(song_list, matched_song):
             for _ in range(5):
                 time.sleep(1)
                 print(".", end = '', flush = True)
-            print(f"\n{matched_song.song_title} has now finished playing.")
+            print(f"\n{matched_song.song_title} has now finished playing.\n")
             return user_rating(song_list, matched_song)
         elif follow_up == "n":
             while True:
-                start_over = input("Okay, I understand you don't want to play the song. Feel free to let me know what you'd like to do next (artists/songs/end): ")
-                if start_over == "artist":
+                start_over = input("Okay, I understand you don't want to play the song. Let me know what to do next (artists/songs/end): ")
+                if start_over == "artists":
                     return artist_songs(song_list)
-                elif start_over == "song":
+                elif start_over == "songs":
                     return search_songs(song_list)
                 elif start_over == "end":
                     return exit_programme(song_list, matched_song)
@@ -105,14 +105,14 @@ def search_songs(song_list):
     while True:
         user_song = input("Please enter a song title: ").strip().casefold()
         if not user_song:
-            print("No song title entered. Please try again: ")
+            print("No song title entered. Please try again. \n")
             continue
         matched_song = next(
             (song for song in song_list if song.song_title.strip().casefold() == user_song.strip().casefold()),
             None
         )
         if matched_song:
-            print(matched_song.display_song())
+            print(f"\n {matched_song.display_song()}")
             return play_song(song_list, matched_song)     
         else:
             print("Sorry that isn't a streamable song. Please check your spelling and try again.\n")
@@ -126,7 +126,7 @@ def artist_songs(song_list):
             continue
         matches = [song.song_title for song in song_list if song.artist.strip().casefold() == artist_name.strip().casefold()]
         if matches: 
-            print(f"Songs by {artist_name}:\n" + "\n".join(matches))
+            print(f"Songs by {artist_name}:\n" + "\n".join(matches) + "\n")
         else:
             print("Unfortunately, that artist is not streamable. Please check your spelling and try again.\n")
             continue
