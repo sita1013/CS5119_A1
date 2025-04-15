@@ -1,4 +1,5 @@
 import csv
+import math
 
 class Music:
     def __init__(self, artist, song_title, length, genre, average_rating):
@@ -49,6 +50,9 @@ def user_rating(song_list, matched_song):
                 user_rating = input("Please enter a rating between 1 and 5, with 5 being amazing: ").strip().casefold()
                 if user_rating in {"1", "2", "3", "4", "5"}:
                     print("Thank you for your rating.\n")
+                    #add in the math adjustment here---
+                    def average(matched_song.average_rating, user_rating):
+                        return (matched_song.average_rating + user_rating)/2
                     while True:
                         from_beginning = input("Would you like to start from the beginning? (y/n): ").strip().casefold()
                         if from_beginning == "y":
