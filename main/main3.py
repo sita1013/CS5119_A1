@@ -1,5 +1,4 @@
 import csv
-import math
 
 class Music:
     def __init__(self, artist, song_title, length, genre, average_rating):
@@ -39,9 +38,10 @@ def file_songs(filename):
             song_list.append(song)
     return song_list
 
-def exit_programme(song_list, matched_song):
+def exit_programme(song_list):
     print("Okay, thank you! Hope to see you again.\n")
 
+import math
 def user_rating(song_list, matched_song):
     while True: 
         ask_rating = input("Would you like to rate this song? (y/n): ")
@@ -52,7 +52,7 @@ def user_rating(song_list, matched_song):
                     print("Thank you for your rating.\n")
                     #add in the math adjustment here---
                     def average(matched_song.average_rating, user_rating):
-                        print f("With your rating {user_rating}, the {matched_song.song_title} is now  rated at {((matched_song.average_rating + user_rating) / 2)}.")
+                        print f("With your rating {user_rating}, the {matched_song.song_title} is now  rated at {((matched_song.average_rating + user_rating) / 2)}.") #issue with syntax on matched_song.average_rating
                     while True:
                         from_beginning = input("Would you like to start from the beginning? (y/n): ").strip().casefold()
                         if from_beginning == "y":
@@ -158,4 +158,3 @@ def start_searching(song_list):
 
 songs = file_songs("music_data.txt")
 start_searching(songs)
-
