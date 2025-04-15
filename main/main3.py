@@ -52,7 +52,7 @@ def user_rating(song_list, matched_song):
                     print("Thank you for your rating.\n")
                     #add in the math adjustment here---
                     def average(matched_song.average_rating, user_rating):
-                        print f("With your rating {user_rating}, the {matched_song} is now {((matched_song.average_rating + user_rating) / 2)}.")
+                        print f("With your rating {user_rating}, the {matched_song.song_title} is now  rated at {((matched_song.average_rating + user_rating) / 2)}.")
                     while True:
                         from_beginning = input("Would you like to start from the beginning? (y/n): ").strip().casefold()
                         if from_beginning == "y":
