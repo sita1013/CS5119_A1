@@ -13,10 +13,15 @@ class defined for music with arguments:
 function open_file: 
     details of opening file and if/elif/else conditions for file
 
+function update_rating: 
+    reads file
+    appends the rating
+    should return to function rate_song once completed
+    
 function rate_song:
     asks user to rate song with a whole number from 1 to 5 with 1 being horrible and 5 being spectacular
     if user inputs whole number
-        adjust current rating to intake this rating
+        adjust current rating to intake this rating by calling function update_rating
         ask user to type exit or call function search_artist_OR_search_song
 
 #should put this inside the search_song function instead
