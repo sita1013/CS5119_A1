@@ -1,6 +1,10 @@
 import csv
 
 class Music:
+    #After the Class and the file_songs function, the code starts at the very bottom and calls the functions above it.
+    #Decided to use f-string more since it's more applicable in the real-world and wanted to practice with it over break.
+    #I would have liked to have learned how to call the file just once and use the data from that single call in the updated_file_rating function.
+    #Also, I only have one try and except condition....I'll need to practice using those more in my code.
     def __init__(self, artist, song_title, length, genre, average_rating):
         self.artist = artist
         self.song_title = song_title
@@ -38,9 +42,37 @@ def file_songs(filename):
             song_list.append(song)
     return song_list
 
-def exit_programme(song_list, matched_song):
+def exit_programme():
     print("Okay, thank you! Hope to see you again.\n")
 
+#decided to re-read the file since we are only changing one data point
+def update_file_rating(filename, matched_song, new_rating):
+    updated_rows = []
+    song_found = False
+    with open(filename, 'r', encoding = 'utf-8') as file: 
+        reader = csv.reader(file, quotechar = "'", skipinitialspace = True)
+        for row in reader: 
+            if len(row) >= 4:
+                artist = row[0].strip()
+                song_title = row[1].strip()
+                if artist.casefold() == matched_song.artist.casefold() and song_title.casefold() == matched_song.song_title.casefold():
+                   song_found = True
+                try:
+                       old_rating = int(row[4])
+                       new_average = round((old_rating + new_rating) /2, 2)
+                       row[4] = str(new_average)
+                except (IndexError, ValueError):
+                       if len(row) < 5: 
+                           row.append(str(new_rating))
+                       else: 
+                           row[4] = str(new_rating)
+                matched_song.average_rating = new_average if 'new_average' in locals() else new_rating
+            updated_rows.append(row)
+    with open(filename, 'w', encoding='utf-8', newline='') as file:
+        writer = csv.writer(file, quotechar="'")
+        writer.writerows(updated_rows)        
+
+import math
 def user_rating(song_list, matched_song):
     while True: 
         ask_rating = input("Would you like to rate this song? (y/n): ")
@@ -48,13 +80,15 @@ def user_rating(song_list, matched_song):
             while True:
                 user_rating = input("Please enter a rating between 1 and 5, with 5 being amazing: ").strip().casefold()
                 if user_rating in {"1", "2", "3", "4", "5"}:
-                    print("Thank you for your rating.\n")
+                    new_user_rating = int(user_rating)
+                    update_file_rating("music_data.txt", matched_song, new_user_rating)
+                    print(f"Thanks! The new average rating for '{matched_song.song_title}' is now {matched_song.average_rating:.2f}.\n")
                     while True:
                         from_beginning = input("Would you like to start from the beginning? (y/n): ").strip().casefold()
                         if from_beginning == "y":
                             return start_searching(song_list)
                         elif from_beginning == "n":
-                            return exit_programme(song_list, matched_song)
+                            return exit_programme()
                         else:
                             print("Sorry, please type either 'y' or 'n'.\n")
                 else: 
@@ -66,7 +100,7 @@ def user_rating(song_list, matched_song):
                 if start_again == "restart":
                     return start_searching(song_list)
                 elif start_again == "end":
-                    return exit_programme(song_list, matched_song)
+                    return exit_programme()
                 else: 
                     print("Sorry, I didn't catch that. Please try again and type either 'restart' or 'end'.\n")
                     continue
@@ -92,7 +126,7 @@ def play_song(song_list, matched_song):
                 elif start_over == "songs":
                     return search_songs(song_list)
                 elif start_over == "end":
-                    return exit_programme(song_list, matched_song)
+                    return exit_programme()
                 else:
                     print("Sorry, I didn't catch that. Please type 'artist', 'song', or 'end'.\n")
                     continue
@@ -100,6 +134,7 @@ def play_song(song_list, matched_song):
             print("Unfortunately that is not playable. Please check your spelling as well and try again.\n")
             continue
 
+#didn't have "time" (pun-intended) to figure out how to get the file to play the song for the full length of the seconds
 import time
 def search_songs(song_list):
     while True:
@@ -154,4 +189,3 @@ def start_searching(song_list):
 
 songs = file_songs("music_data.txt")
 start_searching(songs)
-
